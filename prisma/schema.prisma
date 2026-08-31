@@ -1,0 +1,194 @@
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id           String    @id @default(cuid())
+  username     String    @unique
+  displayName  String
+  avatarUrl    String?
+  bio          String?
+  kathaScore   Int       @default(100)
+  isAnonymous  Boolean   @default(false)
+  
+  stories      Story[]   @relation("AuthorStories")
+  comments     Comment[]
+  storyLikes   StoryLike[]
+  storyRatings StoryRating[]
+  wouldWatch   WouldWatchVote[]
+  castingVotes CastingVote[]
+  reports      Report[]
+  sessions     Session[]
+
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+}
+
+model Session {
+  id           String    @id @default(cuid())
+  sessionToken String    @unique
+  userId       String
+  expiresAt    DateTime
+
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Story {
+  id              String   @id @default(cuid())
+  slug            String   @unique
+  title           String
+  genre           String
+  pitch           String
+  content         String
+  coverImageUrl   String?
+  castingNote     String?
+  published       Boolean  @default(false)
+  visibility      String   @default("private")
+  isFeatured      Boolean  @default(false)
+
+  views           Int      @default(0)
+  likesCount      Int      @default(0)
+  wouldWatchYes   Int      @default(0)
+  wouldWatchNo    Int      @default(0)
+  averageRating   Float    @default(0.0)
+  ratingCount     Int      @default(0)
+  
+  authorId        String
+  author          User     @relation("AuthorStories", fields: [authorId], references: [id], onDelete: Cascade)
+  
+  comments        Comment[]
+  likes           StoryLike[]
+  ratings         StoryRating[]
+  wouldWatchVotes WouldWatchVote[]
+  castingVotes    CastingVote[]
+  reports         Report[]
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model Comment {
+  id          String   @id @default(cuid())
+  content     String
+  likesCount  Int      @default(0)
+  
+  storyId     String
+  story       Story    @relation(fields: [storyId], references: [id], onDelete: Cascade)
+  
+  authorId    String
+  author      User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  
+  parentId    String?
+  parent      Comment? @relation("CommentReplies", fields: [parentId], references: [id], onDelete: Cascade)
+  replies     Comment[] @relation("CommentReplies")
+
+  reports     Report[]
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model StoryLike {
+  id        String   @id @default(cuid())
+  storyId   String
+  story     Story    @relation(fields: [storyId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  createdAt DateTime @default(now())
+
+  @@unique([storyId, userId])
+}
+
+model StoryRating {
+  id        String   @id @default(cuid())
+  rating    Int
+  
+  storyId   String
+  story     Story    @relation(fields: [storyId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([storyId, userId])
+}
+
+model WouldWatchVote {
+  id        String   @id @default(cuid())
+  vote      String   // "yes" or "no"
+  
+  storyId   String
+  story     Story    @relation(fields: [storyId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@unique([storyId, userId])
+}
+
+model CastingVote {
+  id        String   @id @default(cuid())
+  category  String   // "hero" or "director"
+  choice    String
+  
+  storyId   String
+  story     Story    @relation(fields: [storyId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@unique([storyId, userId, category])
+}
+
+model Report {
+  id          String   @id @default(cuid())
+  reason      String
+  description String
+  status      String   @default("pending") // pending, resolved, dismissed
+  
+  reporterId  String
+  reporter    User     @relation(fields: [reporterId], references: [id], onDelete: Cascade)
+  
+  storyId     String?
+  story       Story?   @relation(fields: [storyId], references: [id], onDelete: Cascade)
+
+  commentId   String?
+  comment     Comment? @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  
+  createdAt   DateTime @default(now())
+}
+
+model VerificationCode {
+  id        String   @id @default(cuid())
+  code      String   @unique
+  action    String
+  targetId  String
+  userId    String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
+
+model CallRequest {
+  id          String   @id @default(cuid())
+  storyId     String
+  requesterId String
+  creatorId   String
+  status      String   @default("PENDING") // PENDING, ACCEPTED, DECLINED, ENDED
+
+  offer       String?
+  answer      String?
+  iceCandidates String? @default("[]") // JSON string of ICE candidates
+
+  createdAt   DateTime @default(now())
+  acceptedAt  DateTime?
+  endedAt     DateTime?
+}

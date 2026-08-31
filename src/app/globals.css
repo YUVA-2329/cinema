@@ -1,0 +1,72 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --background: 10 10 12;
+    --surface: 18 18 22;
+    --surface-hover: 26 26 32;
+    --surface-border: 38 38 46;
+    --primary: 229 9 20; /* Crimson Cinema Red */
+    --accent: 255 69 0; /* Amber Orange */
+    --gold: 255 184 0; /* Tollywood Gold */
+  }
+
+  body {
+    background-color: #0A0A0C;
+    color: #F3F4F6;
+    font-family: var(--font-sans), 'Inter', 'Noto Sans Telugu', system-ui, -apple-system, sans-serif;
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #0A0A0C;
+}
+::-webkit-scrollbar-thumb {
+  background: #2A2A34;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #E50914;
+}
+
+/* Custom Glows & Background Shimmer Effects */
+.cinematic-glow {
+  background: radial-gradient(circle at 50% 0%, rgba(229, 9, 20, 0.18) 0%, rgba(255, 69, 0, 0.05) 50%, transparent 100%);
+}
+
+.gold-glow {
+  box-shadow: 0 0 25px rgba(255, 184, 0, 0.25);
+}
+
+.crimson-glow {
+  box-shadow: 0 0 30px rgba(229, 9, 20, 0.35);
+}
+
+.film-grain {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.glass-panel {
+  background: rgba(18, 18, 22, 0.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Custom Animations */
+@keyframes pulseGlow {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 0.9; transform: scale(1.03); }
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 4s infinite ease-in-out;
+}
