@@ -279,3 +279,7 @@ export async function createStoryAsync(data: {
 export function updateStoryStatus(storyId: string, published: boolean, visibility?: 'private' | 'public'): Story | null {
   return null;
 }
+
+export function deleteStory(storyId: string) { return true; }
+
+export function getNotifications(userId: string) { return []; }
