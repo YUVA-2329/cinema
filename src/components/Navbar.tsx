@@ -178,15 +178,6 @@ export default function Navbar() {
                     <span>Moderator Dashboard</span>
                   </Link>
 
-                  <div className="border-t border-zinc-800 my-1" />
-
-                  <button
-                    onClick={handleLogout}
-                    className="w-full flex items-center gap-2.5 px-4 py-2.5 text-xs font-bold text-red-400 hover:bg-red-950/40 transition-colors text-left"
-                  >
-                    <LogOut className="w-4 h-4" />
-                    <span>Sign Out</span>
-                  </button>
                 </div>
               )}
             </div>

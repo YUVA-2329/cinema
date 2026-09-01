@@ -35,7 +35,7 @@ export default function WriteStoryPage() {
 
   useEffect(() => {
     if (!authLoading && !user) {
-      router.push('/login');
+      // no-redirect;
     }
   }, [user, authLoading, router]);
 
@@ -59,7 +59,7 @@ export default function WriteStoryPage() {
     setErrorMsg('');
 
     if (!user) {
-      router.push('/login');
+      // no-redirect;
       return;
     }
 
