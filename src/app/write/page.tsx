@@ -32,6 +32,36 @@ export default function WriteStoryPage() {
   const [confirmedOriginal, setConfirmedOriginal] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isGeneratingStory, setIsGeneratingStory] = useState(false);
+
+  const handleGenerateStory = async () => {
+    if (!pitch) {
+      setErrorMsg("Please enter a One-Line Pitch first before generating!");
+      return;
+    }
+    setIsGeneratingStory(true);
+    setErrorMsg('');
+    try {
+      const res = await fetch('/api/generate-story', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'ngrok-skip-browser-warning': 'true'
+        },
+        body: JSON.stringify({ pitch, genre })
+      });
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.error || 'Failed to generate story');
+      }
+      const data = await res.json();
+      setContent(data.story);
+    } catch (err: any) {
+      setErrorMsg(err.message || 'Error communicating with AI service.');
+    } finally {
+      setIsGeneratingStory(false);
+    }
+  };
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -195,10 +225,26 @@ export default function WriteStoryPage() {
 
         {/* Story Body & Word Counter */}
         <div>
-          <div className="flex items-center justify-between mb-2">
-            <label className="block text-xs font-bold text-zinc-300 uppercase tracking-wider">
-              Story Body (కథ) <span className="text-red-500">*</span>
-            </label>
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
+            <div className="flex items-center gap-4">
+              <label className="block text-xs font-bold text-zinc-300 uppercase tracking-wider">
+                Story Body (కథ) <span className="text-red-500">*</span>
+              </label>
+              
+              <button
+                type="button"
+                onClick={handleGenerateStory}
+                disabled={isGeneratingStory || !pitch}
+                className="flex items-center gap-1.5 text-[10px] font-bold text-amber-950 bg-amber-400 hover:bg-amber-300 disabled:bg-zinc-800 disabled:text-zinc-500 px-3 py-1 rounded-full transition-colors"
+              >
+                {isGeneratingStory ? (
+                  <Loader2 className="w-3 h-3 animate-spin" />
+                ) : (
+                  <Sparkles className="w-3 h-3" />
+                )}
+                <span>Generate from Pitch</span>
+              </button>
+            </div>
             <span
               className={`text-xs font-mono font-bold ${
                 isWordCountValid ? 'text-emerald-400' : 'text-amber-400'
@@ -213,7 +259,8 @@ export default function WriteStoryPage() {
             placeholder="Write your story outline, scene breakdown, characters, and climax here (500–1500 words recommended)..."
             value={content}
             onChange={(e) => setContent(e.target.value)}
-            className="w-full bg-zinc-950 border border-zinc-800 rounded-2xl p-4 text-sm text-white placeholder-zinc-600 focus:outline-none focus:border-red-500 resize-none font-sans leading-relaxed"
+            disabled={isGeneratingStory}
+            className="w-full bg-zinc-950 border border-zinc-800 rounded-2xl p-4 text-sm text-white placeholder-zinc-600 focus:outline-none focus:border-red-500 resize-none font-sans leading-relaxed disabled:opacity-50"
           />
         </div>
 
