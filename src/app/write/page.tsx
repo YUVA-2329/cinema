@@ -234,15 +234,15 @@ export default function WriteStoryPage() {
               <button
                 type="button"
                 onClick={handleGenerateStory}
-                disabled={isGeneratingStory || !pitch}
-                className="flex items-center gap-1.5 text-[10px] font-bold text-amber-950 bg-amber-400 hover:bg-amber-300 disabled:bg-zinc-800 disabled:text-zinc-500 px-3 py-1 rounded-full transition-colors"
+                disabled={isGeneratingStory}
+                className="flex items-center gap-2 text-xs sm:text-sm font-black text-amber-950 bg-gradient-to-r from-amber-400 to-yellow-300 hover:from-amber-300 hover:to-yellow-200 disabled:from-zinc-800 disabled:to-zinc-800 disabled:text-zinc-500 px-5 py-2 rounded-full shadow-lg shadow-amber-900/20 transition-all active:scale-95 border border-amber-500/50"
               >
                 {isGeneratingStory ? (
-                  <Loader2 className="w-3 h-3 animate-spin" />
+                  <Loader2 className="w-4 h-4 animate-spin" />
                 ) : (
-                  <Sparkles className="w-3 h-3" />
+                  <Sparkles className="w-4 h-4" />
                 )}
-                <span>Generate from Pitch</span>
+                <span>Generate Story with AI ✨</span>
               </button>
             </div>
             <span
