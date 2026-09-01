@@ -10,7 +10,7 @@ interface AuthContextType {
   loading: boolean;
   refreshProfile: () => Promise<void>;
   signOut: () => Promise<void>;
-  setAuthUser?: (user: any) => void;
+  setAuthUser: (user: any) => void;
 }
 
 const AuthContext = createContext<AuthContextType>({
