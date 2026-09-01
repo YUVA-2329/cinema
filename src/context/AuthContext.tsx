@@ -66,9 +66,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         katha_score: 100,
         created_at: new Date().toISOString(),
       });
-    } finally {
+      
       setLoading(false);
-    }
   }, []);
 
   useEffect(() => {
