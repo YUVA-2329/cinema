@@ -75,7 +75,7 @@ export default function SignupPage() {
             katha_score: 200,
             created_at: new Date().toISOString(),
           };
-          setAuthUser(newProfile);
+          setAuthUser?.(newProfile);
           router.push('/');
         }
       } else {
@@ -89,7 +89,7 @@ export default function SignupPage() {
           katha_score: 200,
           created_at: new Date().toISOString(),
         };
-        setAuthUser(newProfile);
+        setAuthUser?.(newProfile);
         router.push('/');
       }
     } catch (err: any) {

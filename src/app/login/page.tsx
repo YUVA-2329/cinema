@@ -41,7 +41,7 @@ export default function LoginPage() {
             katha_score: 100,
             created_at: new Date().toISOString(),
           };
-          setAuthUser(profile);
+          setAuthUser?.(profile);
           router.push('/');
         }
       } else {
@@ -55,7 +55,7 @@ export default function LoginPage() {
           katha_score: 500,
           created_at: new Date().toISOString(),
         };
-        setAuthUser(fallbackProfile);
+        setAuthUser?.(fallbackProfile);
         router.push('/');
       }
     } catch (err: any) {
@@ -81,7 +81,7 @@ export default function LoginPage() {
           katha_score: 600,
           created_at: new Date().toISOString(),
         };
-        setAuthUser(googleProfile);
+        setAuthUser?.(googleProfile);
         router.push('/');
       }
     } catch (err: any) {

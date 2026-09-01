@@ -4,7 +4,7 @@ import { getSession } from '@/lib/auth';
 
 export async function POST(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const { id: storyId } = params;
+    const { id: storyId } = await params;
     const session = await getSession();
     if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     
@@ -75,7 +75,7 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
 
 export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const { id: storyId } = params;
+    const { id: storyId } = await params;
     const session = await getSession();
     if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 

@@ -48,7 +48,7 @@ export default function AuthModal({ onClose, onSuccess }: AuthModalProps) {
               katha_score: 200,
               created_at: new Date().toISOString(),
             };
-            setAuthUser(newProfile);
+            setAuthUser?.(newProfile);
             onSuccess(newProfile);
           }
         } else {
@@ -68,7 +68,7 @@ export default function AuthModal({ onClose, onSuccess }: AuthModalProps) {
               katha_score: 350,
               created_at: new Date().toISOString(),
             };
-            setAuthUser(profile);
+            setAuthUser?.(profile);
             onSuccess(profile);
           }
         }
@@ -83,7 +83,7 @@ export default function AuthModal({ onClose, onSuccess }: AuthModalProps) {
           katha_score: 500,
           created_at: new Date().toISOString(),
         };
-        setAuthUser(mockProfile);
+        setAuthUser?.(mockProfile);
         onSuccess(mockProfile);
       }
     } catch (err: any) {
@@ -109,7 +109,7 @@ export default function AuthModal({ onClose, onSuccess }: AuthModalProps) {
           katha_score: 600,
           created_at: new Date().toISOString(),
         };
-        setAuthUser(googleProfile);
+        setAuthUser?.(googleProfile);
         onSuccess(googleProfile);
       }
     } catch (err: any) {
