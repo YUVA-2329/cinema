@@ -8,8 +8,13 @@ import {
 } from '@/types';
 
 // Utility for fetching wrapper
-async function fetchApi(url: string, options?: RequestInit) {
-  const res = await fetch(url, options);
+async function fetchApi(url: string, options: RequestInit = {}) {
+  const headers = {
+    ...options.headers,
+    'ngrok-skip-browser-warning': 'true',
+  };
+  
+  const res = await fetch(url, { ...options, headers });
   if (!res.ok) {
     const error = await res.json().catch(() => ({}));
     throw new Error(error.error || 'API Error');

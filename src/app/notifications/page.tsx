@@ -25,7 +25,9 @@ export default function NotificationsPage() {
 
   const loadNotifs = async () => {
     try {
-      const res = await fetch('/api/notifications');
+      const res = await fetch('/api/notifications', {
+        headers: { 'ngrok-skip-browser-warning': 'true' }
+      });
       if (res.ok) {
         const data = await res.json();
         setNotifications(data.notifications || []);
