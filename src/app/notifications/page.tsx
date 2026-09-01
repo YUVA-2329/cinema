@@ -19,7 +19,7 @@ export default function NotificationsPage() {
       return;
     }
     if (profile) {
-      loadNotifs(profile.id);
+      loadNotifs();
     }
   }, [user, profile, authLoading, router]);
 

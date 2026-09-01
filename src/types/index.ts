@@ -145,7 +145,7 @@ export interface Report {
 export interface NotificationItem {
   id: string;
   user_id: string;
-  type: 'comment' | 'reply' | 'like' | 'milestone' | 'leaderboard';
+  type: 'comment' | 'reply' | 'like' | 'milestone' | 'leaderboard' | 'call_request';
   title: string;
   message: string;
   link?: string;

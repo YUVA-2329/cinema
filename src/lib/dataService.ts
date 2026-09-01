@@ -282,4 +282,6 @@ export function updateStoryStatus(storyId: string, published: boolean, visibilit
 
 export function deleteStory(storyId: string) { return true; }
 
-export function getNotifications(userId: string) { return []; }
+export function getNotifications(userId: string): import("@/types").NotificationItem[] { return []; }
+
+export function markNotificationRead(id: string) {}
