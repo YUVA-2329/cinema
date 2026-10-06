@@ -9,7 +9,7 @@
 
 ## 🎬 Demo & 📸 Screenshots
 
-![Katha Cinema App Preview](https://via.placeholder.com/800x400?text=Katha+Cinema+App+Preview)
+
 
 *(Project preview and screenshots demonstrating the core user experience)*
 
